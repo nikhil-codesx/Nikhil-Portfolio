@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Nikhil codesX E-Learning Platform</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #8b5cf6;
+        --primary-light: #a78bfa;
+        --primary-dark: #6d28d9;
+        --secondary: #ec4899;
+        --accent: #06b6d4;
+        --dark: #0f172a;
+        --darker: #020617;
+        --light: #f8fafc;
+        --gray: #64748b;
+        --gray-light: #94a3b8;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --glass-bg: rgba(15, 23, 42, 0.7);
+        --glass-border: 1px solid rgba(139, 92, 246, 0.2);
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: var(--darker);
+        color: var(--light);
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Animated Background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          radial-gradient(
+            circle at 20% 50%,
+            rgba(139, 92, 246, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(236, 72, 153, 0.1) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Floating Particles */
+      .particle {
+        position: fixed;
+        pointer-events: none;
+        background: radial-gradient(circle, var(--primary-light), transparent);
+        border-radius: 50%;
+        animation: float-particle linear infinite;
+        z-index: 0;
+      }
+
+      @keyframes float-particle {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.5;
+        }
+        90% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Glassmorphism Premium */
+      .glass-premium {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: var(--glass-border);
+        border-radius: 32px;
+        box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .glass-premium:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary);
+        box-shadow: 0 35px 55px -15px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Buttons */
+      .btn-premium {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        padding: 14px 32px;
+        border-radius: 48px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+      }
+
+      .btn-premium::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.6s,
+          height 0.6s;
+      }
+
+      .btn-premium:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .btn-premium:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+      }
+
+      .btn-outline-premium {
+        background: transparent;
+        border: 2px solid var(--primary);
+        padding: 12px 28px;
+        border-radius: 48px;
+        color: var(--primary-light);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-premium:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+      }
+
+      /* Inputs */
+      .input-premium {
+        background: rgba(15, 23, 42, 0.9);
+        border: 2px solid rgba(139, 92, 246, 0.2);
+        border-radius: 20px;
+        padding: 14px 20px;
+        color: var(--light);
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+
+      .input-premium:focus {
+        border-color: var(--primary);
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes glow-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 5px var(--primary);
+        }
+        50% {
+          box-shadow: 0 0 30px var(--primary);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .animate-up {
+        animation: fadeInUp 0.8s ease forwards;
+      }
+
+      .animate-left {
+        animation: fadeInLeft 0.8s ease forwards;
+      }
+
+      .animate-right {
+        animation: fadeInRight 0.8s ease forwards;
+      }
+
+      /* Navbar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 1.2rem 3rem;
+        background: rgba(2, 6, 23, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .navbar-scrolled {
+        padding: 0.8rem 3rem;
+        background: rgba(2, 6, 23, 0.95);
+      }
+
+      /* Sidebar */
+      .sidebar-premium {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 280px;
+        height: 100%;
+        background: rgba(2, 6, 23, 0.98);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(139, 92, 246, 0.2);
+        transform: translateX(0);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 100;
+      }
+
+      .sidebar-premium.closed {
+        transform: translateX(-100%);
+      }
+
+      /* Course Card */
+      .course-card-premium {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.1),
+          rgba(236, 72, 153, 0.05)
+        );
+        border-radius: 28px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        cursor: pointer;
+      }
+
+      .course-card-premium:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 30px 50px -20px rgba(139, 92, 246, 0.5);
+      }
+
+      .course-image {
+        height: 220px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .course-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .course-card-premium:hover .course-image img {
+        transform: scale(1.1);
+      }
+
+      /* Progress Ring */
+      .progress-ring {
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+
+      .progress-ring svg {
+        transform: rotate(-90deg);
+      }
+
+      .progress-ring-circle {
+        stroke-dasharray: 226;
+        stroke-dashoffset: 226;
+        transition: stroke-dashoffset 1s ease;
+      }
+
+      /* Toast */
+      .toast-premium {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        padding: 16px 28px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 600;
+        z-index: 2000;
+        animation: slideInRight 0.4s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(100px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Modal */
+      .modal-premium {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--darker);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 10px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 1.5rem;
+        }
+        .sidebar-premium {
+          transform: translateX(-100%);
+        }
+        .sidebar-premium.mobile-open {
+          transform: translateX(0);
+        }
+      }
+
+      /* Additional back button styles */
+      .back-nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.2),
+          rgba(236, 72, 153, 0.1)
+        );
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        padding: 10px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        backdrop-filter: blur(4px);
+      }
+      .back-nav-btn:hover {
+        background: rgba(139, 92, 246, 0.4);
+        transform: translateX(-4px);
+        border-color: var(--primary);
+      }
+      .back-nav-btn i {
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      // ==================== PARTICLES BACKGROUND ====================
+      function createParticles() {
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          const size = Math.random() * 4 + 2;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+          particle.style.animationDelay = `${Math.random() * 10}s`;
+          particle.style.opacity = Math.random() * 0.5;
+          document.body.appendChild(particle);
+        }
+      }
+      createParticles();
+
+      // ==================== DATA MODELS ====================
+      const USERS_KEY = "edulearn_users_v2";
+      const COURSES_KEY = "edulearn_courses_v2";
+      const ENROLLMENTS_KEY = "edulearn_enrollments_v2";
+      const CERTIFICATES_KEY = "edulearn_certificates_v2";
+
+      function initData() {
+        if (!localStorage.getItem(USERS_KEY)) {
+          const users = [
+            {
+              id: 1,
+              name: "Alex Johnson",
+              email: "student@edulearn.com",
+              password: btoa("Student@123"),
+              role: "student",
+              avatar:
+                "https://ui-avatars.com/api/?name=Alex+Johnson&background=8B5CF6&color=fff",
+              enrolledCourses: [],
+            },
+            {
+              id: 2,
+              name: "Prof. Sarah Williams",
+              email: "teacher@edulearn.com",
+              password: btoa("Teacher@123"),
+              role: "teacher",
+              avatar:
+                "https://ui-avatars.com/api/?name=Sarah+Williams&background=EC4899&color=fff",
+            },
+            {
+              id: 3,
+              name: "Admin Michael Chen",
+              email: "admin@edulearn.com",
+              password: btoa("Admin@123"),
+              role: "admin",
+              avatar:
+                "https://ui-avatars.com/api/?name=Admin+Michael&background=06B6D4&color=fff",
+            },
+          ];
+          localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        if (!localStorage.getItem(COURSES_KEY)) {
+          const courses = [
+            {
+              id: 1,
+              title: "Complete Web Development Bootcamp 2024",
+              instructor: "Prof. Sarah Williams",
+              description:
+                "Master full-stack development with HTML, CSS, JavaScript, React, Node.js, and MongoDB. Build real-world projects.",
+              thumbnail:
+                "https://images.unsplash.com/photo-1627398242454-45a1695bddc5?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "48 hours",
+              level: "Beginner to Advanced",
+              students: 12500,
+              rating: 4.9,
+              price: "Free",
+              category: "Development",
+              syllabus: [
+                { week: 1, topic: "HTML & CSS Mastery" },
+                { week: 2, topic: "JavaScript Deep Dive" },
+                { week: 3, topic: "React.js" },
+              ],
+              quiz: [
+                {
+                  question: "What does HTML stand for?",
+                  options: [
+                    "Hyper Text Markup Language",
+                    "High Tech Modern Language",
+                    "Hyper Transfer Markup Language",
+                  ],
+                  correct: 0,
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: "AI & Machine Learning Masterclass",
+              instructor: "Dr. James Wilson",
+              description:
+                "Learn Python, TensorFlow, PyTorch, and build AI models. Includes computer vision and NLP.",
+              thumbnail:
+                "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "56 hours",
+              level: "Intermediate",
+              students: 8700,
+              rating: 4.8,
+              price: "Free",
+              category: "AI/ML",
+              syllabus: [{ week: 1, topic: "Python for Data Science" }],
+              quiz: [],
+            },
+            {
+              id: 3,
+              title: "UI/UX Design Mastery",
+              instructor: "Emma Rodriguez",
+              description:
+                "Figma, Adobe XD, user research, prototyping, and portfolio building. Industry-ready skills.",
+              thumbnail:
+                "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "32 hours",
+              level: "Beginner",
+              students: 15200,
+              rating: 4.9,
+              price: "Free",
+              category: "Design",
+              syllabus: [{ week: 1, topic: "Design Principles" }],
+              quiz: [],
+            },
+            {
+              id: 4,
+              title: "Data Science & Analytics",
+              instructor: "Dr. Emily Zhao",
+              description:
+                "SQL, Python, Pandas, NumPy, Matplotlib, Tableau, and real-world case studies.",
+              thumbnail:
+                "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "45 hours",
+              level: "Intermediate",
+              students: 9400,
+              rating: 4.7,
+              price: "Free",
+              category: "Data Science",
+              syllabus: [],
+              quiz: [],
+            },
+            {
+              id: 5,
+              title: "Cybersecurity Fundamentals",
+              instructor: "Prof. Mark Thompson",
+              description:
+                "Network security, cryptography, ethical hacking, and security best practices.",
+              thumbnail:
+                "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "40 hours",
+              level: "Beginner",
+              students: 6300,
+              rating: 4.8,
+              price: "Free",
+              category: "Security",
+              syllabus: [],
+              quiz: [],
+            },
+            {
+              id: 6,
+              title: "Cloud Computing (AWS/Azure)",
+              instructor: "Priya Patel",
+              description:
+                "AWS, Azure, cloud architecture, DevOps, and deployment strategies.",
+              thumbnail:
+                "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "38 hours",
+              level: "Advanced",
+              students: 5100,
+              rating: 4.9,
+              price: "Free",
+              category: "Cloud",
+              syllabus: [],
+              quiz: [],
+            },
+          ];
+          localStorage.setItem(COURSES_KEY, JSON.stringify(courses));
+        }
+
+        if (!localStorage.getItem(ENROLLMENTS_KEY)) {
+          localStorage.setItem(ENROLLMENTS_KEY, JSON.stringify([]));
+        }
+        if (!localStorage.getItem(CERTIFICATES_KEY)) {
+          localStorage.setItem(CERTIFICATES_KEY, JSON.stringify([]));
+        }
+      }
+      initData();
+
+      function getUsers() {
+        return JSON.parse(localStorage.getItem(USERS_KEY));
+      }
+      function saveUsers(users) {
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      }
+      function getCourses() {
+        return JSON.parse(localStorage.getItem(COURSES_KEY));
+      }
+      function getEnrollments() {
+        return JSON.parse(localStorage.getItem(ENROLLMENTS_KEY));
+      }
+      function saveEnrollments(enrollments) {
+        localStorage.setItem(ENROLLMENTS_KEY, JSON.stringify(enrollments));
+      }
+      function getSession() {
+        return JSON.parse(
+          sessionStorage.getItem("edulearn_session_v2") || "null",
+        );
+      }
+      function setSession(user) {
+        sessionStorage.setItem("edulearn_session_v2", JSON.stringify(user));
+      }
+      function destroySession() {
+        sessionStorage.removeItem("edulearn_session_v2");
+      }
+
+      let currentUser = getSession();
+      let currentView = "landing";
+      let currentCourse = null;
+
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = "toast-premium";
+        toast.innerHTML = `<i class="fas fa-${type === "success" ? "check-circle" : "info-circle"}" style="margin-right: 10px;"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (navbar && window.scrollY > 50) {
+          navbar.classList.add("navbar-scrolled");
+        } else if (navbar) {
+          navbar.classList.remove("navbar-scrolled");
+        }
+      });
+
+      // Global back navigation function
+      window.goBack = function () {
+        if (currentUser) {
+          // If user is logged in, stay on same dashboard but we can just refresh dashboard view
+          renderApp();
+        } else {
+          if (currentView === "login" || currentView === "signup") {
+            currentView = "landing";
+            renderApp();
+          } else {
+            currentView = "landing";
+            renderApp();
+          }
+        }
+      };
+
+      function renderApp() {
+        const container = document.getElementById("app");
+        if (!container) return;
+
+        if (currentUser) {
+          if (currentUser.role === "admin") renderAdminPanel(container);
+          else if (currentUser.role === "teacher")
+            renderTeacherPanel(container);
+          else renderStudentDashboard(container);
+        } else {
+          if (currentView === "landing") renderLanding(container);
+          else if (currentView === "login") renderLogin(container);
+          else if (currentView === "signup") renderSignup(container);
+          else renderLanding(container);
+        }
+      }
+
+      // ==================== LANDING PAGE (with Back Button) ====================
+      function renderLanding(container) {
+        const categories = [
+          "All",
+          "Development",
+          "AI/ML",
+          "Design",
+          "Data Science",
+          "Security",
+          "Cloud",
+        ];
+        const featuredCourses = getCourses().slice(0, 4);
+
+        container.innerHTML = `
+      <div style="min-height: 100vh; position: relative; z-index: 1;">
+        <!-- Navbar -->
+        <nav class="navbar">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <i class="fas fa-graduation-cap" style="font-size: 2rem; background: linear-gradient(135deg, #8B5CF6, #EC4899); -webkit-background-clip: text; background-clip: text; color: transparent;"></i>
+              <h2 style="background: linear-gradient(135deg, #fff, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent;">Nikhil E-Learning</h2>
+            </div>
+            <div>
+              <button onclick="window.navigate('login')" class="btn-outline-premium" style="margin-right: 1rem;">Sign In</button>
+              <button onclick="window.navigate('signup')" class="btn-premium">Start Learning</button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: space-between; padding: 6rem 5% 4rem; flex-wrap: wrap; gap: 3rem;">
+          <div style="flex: 1; min-width: 300px;" class="animate-left">
+            <div style="display: inline-block; background: rgba(139, 92, 246, 0.2); padding: 8px 20px; border-radius: 40px; margin-bottom: 1.5rem;">
+              <span style="color: #A78BFA;">✨ Over 50,000+ Learners Worldwide</span>
+            </div>
+            <h1 style="font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem;">
+              Master New Skills with
+              <span style="background: linear-gradient(135deg, #8B5CF6, #EC4899, #06B6D4); -webkit-background-clip: text; background-clip: text; color: transparent;">World-Class Courses</span>
+            </h1>
+            <p style="font-size: 1.2rem; color: #94A3B8; margin-bottom: 2rem; max-width: 500px;">
+              Learn from industry experts, earn certificates, and advance your career with our premium e-learning platform.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button onclick="window.navigate('signup')" class="btn-premium">Get Started Free →</button>
+              <button class="btn-outline-premium">View All Courses</button>
+            </div>
+            <div style="display: flex; gap: 2rem; margin-top: 3rem;">
+              <div><span style="font-size: 2rem; font-weight: 800; color: #8B5CF6;">200+</span><br>Expert Instructors</div>
+              <div><span style="font-size: 2rem; font-weight: 800; color: #8B5CF6;">500+</span><br>Premium Courses</div>
+              <div><span style="font-size: 2rem; font-weight: 800; color: #8B5CF6;">50K+</span><br>Happy Students</div>
+            </div>
+          </div>
+          <div style="flex: 1; min-width: 300px; text-align: center;" class="animate-right">
+            <div class="glass-premium" style="padding: 2rem; animation: float 3s ease-in-out infinite;">
+              <i class="fas fa-laptop-code" style="font-size: 5rem; color: #8B5CF6;"></i>
+              <h3 style="margin-top: 1rem;">Learn Anytime, Anywhere</h3>
+              <p style="color: #94A3B8;">Access courses on mobile, tablet, or desktop</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Categories -->
+        <div style="padding: 4rem 5%; background: rgba(139, 92, 246, 0.05);">
+          <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Browse by Category</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+            ${categories
+              .map(
+                (cat) => `
+              <div class="glass-premium" style="padding: 1.5rem; text-align: center; cursor: pointer;" onclick="filterCategory('${cat}')">
+                <i class="fas fa-${cat === "Development" ? "code" : cat === "AI/ML" ? "brain" : cat === "Design" ? "paintbrush" : cat === "Data Science" ? "chart-line" : cat === "Security" ? "shield-alt" : cat === "Cloud" ? "cloud" : "star"}" style="font-size: 2rem; color: #8B5CF6;"></i>
+                <p style="margin-top: 0.5rem; font-weight: 600;">${cat}</p>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+
+        <!-- Featured Courses -->
+        <div style="padding: 4rem 5%;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
+            <h2 style="font-size: 2rem;">Featured Courses</h2>
+            <button class="btn-outline-premium">View All →</button>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem;">
+            ${featuredCourses
+              .map(
+                (course) => `
+              <div class="course-card-premium" onclick="window.navigate('login')">
+                <div class="course-image">
+                  <img src="${course.thumbnail}" alt="${course.title}">
+                </div>
+                <div style="padding: 1.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span class="badge" style="background: linear-gradient(135deg, #8B5CF6, #EC4899); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;">${course.category || "Course"}</span>
+                    <span style="color: #F59E0B;">⭐ ${course.rating}</span>
+                  </div>
+                  <h3 style="margin-bottom: 0.5rem;">${course.title}</h3>
+                  <p style="color: #94A3B8; font-size: 0.9rem;">${course.instructor}</p>
+                  <p style="margin-top: 1rem; font-size: 0.9rem;">${course.description.substring(0, 100)}...</p>
+                  <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                    <span><i class="far fa-clock"></i> ${course.duration}</span>
+                    <span><i class="fas fa-users"></i> ${course.students.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div style="padding: 4rem 5%; text-align: center; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.05));">
+          <div class="glass-premium" style="max-width: 800px; margin: 0 auto; padding: 3rem;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">Ready to Start Your Journey?</h2>
+            <p style="color: #94A3B8; margin-bottom: 2rem;">Join thousands of learners and transform your career with our premium courses.</p>
+            <button onclick="window.navigate('signup')" class="btn-premium">Get Started Free →</button>
+          </div>
+        </div>
+      </div>
+    `;
+      }
+
+      window.filterCategory = (category) => {
+        showToast(`Showing ${category} courses`, "info");
+      };
+
+      // ==================== LOGIN (with Back Button) ====================
+      function renderLogin(container) {
+        container.innerHTML = `
+      <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; z-index: 1;">
+        <div class="glass-premium animate-up" style="max-width: 480px; width: 100%; padding: 2.5rem;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap;">
+            <div class="back-nav-btn" onclick="goBack()">
+              <i class="fas fa-arrow-left"></i> Back
+            </div>
+          </div>
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-graduation-cap" style="font-size: 3rem; background: linear-gradient(135deg, #8B5CF6, #EC4899); -webkit-background-clip: text; background-clip: text; color: transparent;"></i>
+            <h2 style="margin-top: 1rem;">Welcome Back</h2>
+            <p style="color: #94A3B8;">Sign in to continue learning</p>
+          </div>
+          <form id="loginForm">
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">Email Address</label>
+              <input type="email" id="email" class="input-premium" placeholder="student@edulearn.com">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem;">Password</label>
+              <input type="password" id="password" class="input-premium" placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-premium" style="width: 100%;">Sign In →</button>
+          </form>
+          <p style="text-align: center; margin-top: 1.5rem;">
+            Don't have an account? <a href="#" onclick="window.navigate('signup')" style="color: #8B5CF6; text-decoration: none;">Sign Up</a>
+          </p>
+          <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #64748B;">
+            Demo: student@edulearn.com / Student@123
+          </p>
+        </div>
+      </div>
+    `;
+
+        document
+          .getElementById("loginForm")
+          ?.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const users = getUsers();
+            const user = users.find(
+              (u) => u.email === email && btoa(password) === u.password,
+            );
+
+            if (user) {
+              setSession(user);
+              currentUser = user;
+              renderApp();
+              showToast("✨ Welcome back! Continue your learning journey.");
+            } else {
+              showToast("Invalid email or password", "error");
+            }
+          });
+      }
+
+      // ==================== SIGNUP (with Back Button) ====================
+      function renderSignup(container) {
+        container.innerHTML = `
+      <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; z-index: 1;">
+        <div class="glass-premium animate-up" style="max-width: 480px; width: 100%; padding: 2.5rem;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap;">
+            <div class="back-nav-btn" onclick="goBack()">
+              <i class="fas fa-arrow-left"></i> Back
+            </div>
+          </div>
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-user-plus" style="font-size: 3rem; color: #8B5CF6;"></i>
+            <h2 style="margin-top: 1rem;">Create Account</h2>
+            <p style="color: #94A3B8;">Start your learning adventure today</p>
+          </div>
+          <form id="signupForm">
+            <div style="margin-bottom: 1rem;">
+              <input type="text" id="name" class="input-premium" placeholder="Full Name">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <input type="email" id="email" class="input-premium" placeholder="Email Address">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <input type="password" id="password" class="input-premium" placeholder="Password (min 6 characters)">
+            </div>
+            <button type="submit" class="btn-premium" style="width: 100%;">Create Account →</button>
+          </form>
+          <p style="text-align: center; margin-top: 1.5rem;">
+            Already have an account? <a href="#" onclick="window.navigate('login')" style="color: #8B5CF6; text-decoration: none;">Sign In</a>
+          </p>
+        </div>
+      </div>
+    `;
+
+        document
+          .getElementById("signupForm")
+          ?.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const users = getUsers();
+
+            if (users.find((u) => u.email === email)) {
+              showToast("Email already exists", "error");
+              return;
+            }
+            if (password.length < 6) {
+              showToast("Password must be at least 6 characters", "error");
+              return;
+            }
+
+            const newUser = {
+              id: Date.now(),
+              name,
+              email,
+              password: btoa(password),
+              role: "student",
+              avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=8B5CF6&color=fff`,
+              enrolledCourses: [],
+            };
+            users.push(newUser);
+            saveUsers(users);
+            showToast("🎉 Account created! Please sign in.");
+            window.navigate("login");
+          });
+      }
+
+      // ==================== STUDENT DASHBOARD (with Back Button for modal/course view) ====================
+      function renderStudentDashboard(container) {
+        const courses = getCourses();
+        const enrollments = getEnrollments().filter(
+          (e) => e.studentId === currentUser.id,
+        );
+        const enrolledCourseIds = enrollments.map((e) => e.courseId);
+        const myCourses = courses.filter((c) =>
+          enrolledCourseIds.includes(c.id),
+        );
+        const recommended = courses
+          .filter((c) => !enrolledCourseIds.includes(c.id))
+          .slice(0, 4);
+
+        container.innerHTML = `
+      <div style="position: relative; z-index: 1;">
+        <!-- Top Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; background: rgba(2,6,23,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(139,92,246,0.2);">
+          <div style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-bars" style="font-size: 1.5rem; cursor: pointer;" onclick="toggleMobileSidebar()"></i>
+            <h2 style="background: linear-gradient(135deg, #fff, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent;">Dashboard</h2>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <i class="fas fa-bell" style="font-size: 1.2rem; cursor: pointer;"></i>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="${currentUser.avatar}" style="width: 40px; height: 40px; border-radius: 50%;">
+              <span>${currentUser.name}</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <button onclick="handleLogout()" class="btn-outline-premium" style="padding: 8px 20px;">Logout</button>
+          </div>
+        </div>
+
+        <!-- Welcome Hero -->
+        <div class="glass-premium animate-up" style="margin: 2rem; padding: 2rem; background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.1));">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div>
+              <h1 style="font-size: 2rem;">Hello, ${currentUser.name.split(" ")[0]}! 👋</h1>
+              <p style="color: #94A3B8;">Ready to continue your learning journey?</p>
+            </div>
+            <div class="progress-ring">
+              <svg width="80" height="80">
+                <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(139,92,246,0.2)" stroke-width="4"/>
+                <circle class="progress-ring-circle" cx="40" cy="40" r="36" fill="none" stroke="url(#grad)" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold;">${Math.round(enrollments.reduce((s, e) => s + (e.progress || 0), 0) / (enrollments.length || 1))}%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem;">
+          <div class="glass-premium" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+            <div style="background: linear-gradient(135deg, #8B5CF6, #EC4899); width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-book-open" style="font-size: 1.5rem;"></i></div>
+            <div><h3 style="font-size: 1.8rem;">${myCourses.length}</h3><p style="color: #94A3B8;">Enrolled Courses</p></div>
+          </div>
+          <div class="glass-premium" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+            <div style="background: linear-gradient(135deg, #06B6D4, #8B5CF6); width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-clock" style="font-size: 1.5rem;"></i></div>
+            <div><h3 style="font-size: 1.8rem;">${myCourses.reduce((sum, c) => sum + parseInt(c.duration), 0)}</h3><p style="color: #94A3B8;">Total Hours</p></div>
+          </div>
+          <div class="glass-premium" style="padding: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+            <div style="background: linear-gradient(135deg, #10B981, #8B5CF6); width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-certificate" style="font-size: 1.5rem;"></i></div>
+            <div><h3 style="font-size: 1.8rem;">${JSON.parse(localStorage.getItem(CERTIFICATES_KEY) || "[]").filter((c) => c.studentId === currentUser.id).length}</h3><p style="color: #94A3B8;">Certificates</p></div>
+          </div>
+        </div>
+
+        <!-- My Courses -->
+        <div style="margin: 2rem;">
+          <h2 style="margin-bottom: 1.5rem;">📚 My Courses</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+            ${myCourses
+              .map(
+                (course) => `
+              <div class="glass-premium" style="cursor: pointer;" onclick="viewCourse(${course.id})">
+                <div style="display: flex; gap: 1rem; padding: 1rem;">
+                  <img src="${course.thumbnail}" style="width: 100px; height: 100px; border-radius: 16px; object-fit: cover;">
+                  <div style="flex: 1;">
+                    <h4>${course.title}</h4>
+                    <p style="color: #94A3B8; font-size: 0.8rem;">${course.instructor}</p>
+                    <div class="progress-bar" style="margin-top: 10px;"><div class="progress-fill" style="width: ${enrollments.find((e) => e.courseId === course.id)?.progress || 0}%;"></div></div>
+                    <span style="font-size: 0.8rem;">${enrollments.find((e) => e.courseId === course.id)?.progress || 0}% Complete</span>
+                  </div>
+                </div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+          ${myCourses.length === 0 ? '<div class="glass-premium" style="padding: 3rem; text-align: center;"><p>You haven\'t enrolled in any courses yet.</p><button class="btn-premium" style="margin-top: 1rem;" onclick="location.reload()">Browse Courses</button></div>' : ""}
+        </div>
+
+        <!-- Recommended -->
+        <div style="margin: 2rem;">
+          <h2 style="margin-bottom: 1.5rem;">🔥 Recommended For You</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+            ${recommended
+              .map(
+                (course) => `
+              <div class="course-card-premium" onclick="enrollCourse(${course.id})">
+                <div class="course-image"><img src="${course.thumbnail}"></div>
+                <div style="padding: 1rem;">
+                  <h4>${course.title}</h4>
+                  <p style="color: #94A3B8; font-size: 0.8rem;">${course.instructor}</p>
+                  <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                    <span>⭐ ${course.rating}</span>
+                    <span class="badge">${course.duration}</span>
+                  </div>
+                </div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+      </div>
+    `;
+      }
+
+      window.viewCourse = function (courseId) {
+        const course = getCourses().find((c) => c.id === courseId);
+        if (!course) return;
+        currentCourse = course;
+
+        const modal = document.createElement("div");
+        modal.className = "modal-premium";
+        modal.innerHTML = `
+      <div class="glass-premium" style="max-width: 800px; width: 90%; max-height: 85vh; overflow-y: auto; padding: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2>${course.title}</h2>
+          <i class="fas fa-times" style="font-size: 1.5rem; cursor: pointer;" onclick="this.closest('.modal-premium').remove()"></i>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <div class="back-nav-btn" onclick="this.closest('.modal-premium').remove()" style="display: inline-flex; margin-bottom: 12px;">
+            <i class="fas fa-arrow-left"></i> Close & Back
+          </div>
+        </div>
+        <div class="video-player" style="margin-bottom: 1rem;">
+          <video width="100%" controls src="${course.videoUrl}" style="border-radius: 16px;"></video>
+        </div>
+        <p><strong>Instructor:</strong> ${course.instructor}</p>
+        <p><strong>Duration:</strong> ${course.duration} | <strong>Level:</strong> ${course.level}</p>
+        <p>${course.description}</p>
+        <h3 style="margin-top: 1rem;">Syllabus</h3>
+        ${course.syllabus.map((s, i) => `<div style="padding: 0.5rem; border-bottom: 1px solid rgba(139,92,246,0.1);"><i class="fas fa-play-circle" style="color: #8B5CF6;"></i> Week ${s.week}: ${s.topic}</div>`).join("")}
+        <button class="btn-premium" style="margin-top: 1rem; width: 100%;" onclick="updateCourseProgress(${courseId}); this.closest('.modal-premium').remove();">Mark as Complete & Continue</button>
+      </div>
+    `;
+        document.body.appendChild(modal);
+      };
+
+      window.updateCourseProgress = function (courseId) {
+        const enrollments = getEnrollments();
+        const enrollment = enrollments.find(
+          (e) => e.studentId === currentUser.id && e.courseId === courseId,
+        );
+        if (enrollment) {
+          enrollment.progress = Math.min(100, (enrollment.progress || 0) + 33);
+          saveEnrollments(enrollments);
+          showToast("🎉 Progress updated! Keep going!");
+          renderApp();
+        }
+      };
+
+      window.enrollCourse = function (courseId) {
+        if (!currentUser) {
+          window.navigate("login");
+          return;
+        }
+        const enrollments = getEnrollments();
+        if (
+          !enrollments.find(
+            (e) => e.studentId === currentUser.id && e.courseId === courseId,
+          )
+        ) {
+          enrollments.push({
+            studentId: currentUser.id,
+            courseId: courseId,
+            progress: 0,
+            enrolledAt: new Date().toISOString(),
+          });
+          saveEnrollments(enrollments);
+          showToast("✨ Successfully enrolled in course!");
+          renderApp();
+        } else {
+          showToast("You're already enrolled in this course!", "info");
+        }
+      };
+
+      function renderTeacherPanel(container) {
+        container.innerHTML = `
+      <div style="padding: 2rem; position: relative; z-index: 1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h1>👩‍🏫 Teacher Dashboard</h1>
+          <button onclick="handleLogout()" class="btn-outline-premium">Logout</button>
+        </div>
+        <div class="glass-premium" style="padding: 3rem; text-align: center;">
+          <i class="fas fa-chalkboard-teacher" style="font-size: 4rem; color: #8B5CF6;"></i>
+          <h3>Welcome, ${currentUser.name}</h3>
+          <p style="color: #94A3B8;">Manage your courses, track student progress, and upload content.</p>
+          <button class="btn-premium" style="margin-top: 1rem;">Create New Course</button>
+        </div>
+      </div>
+    `;
+      }
+
+      function renderAdminPanel(container) {
+        const users = getUsers();
+        container.innerHTML = `
+      <div style="padding: 2rem; position: relative; z-index: 1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h1>👑 Admin Dashboard</h1>
+          <button onclick="handleLogout()" class="btn-outline-premium">Logout</button>
+        </div>
+        <div class="glass-premium" style="padding: 2rem;">
+          <h3>Platform Statistics</h3>
+          <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1rem;">
+            <div><strong>${users.length}</strong> Users</div>
+            <div><strong>${getCourses().length}</strong> Courses</div>
+            <div><strong>${getEnrollments().length}</strong> Enrollments</div>
+          </div>
+        </div>
+      </div>
+    `;
+      }
+
+      window.toggleMobileSidebar = () => {
+        const sidebar = document.querySelector(".sidebar-premium");
+        if (sidebar) sidebar.classList.toggle("mobile-open");
+      };
+
+      window.handleLogout = function () {
+        destroySession();
+        currentUser = null;
+        renderApp();
+        showToast("Logged out successfully");
+      };
+
+      window.navigate = function (view) {
+        currentView = view;
+        renderApp();
+      };
+
+      renderApp();
+    </script>
+  </body>
+</html>

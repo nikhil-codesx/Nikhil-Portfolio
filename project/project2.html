@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Nikhil - Share, Learn & Grow</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #8b5cf6;
+        --primary-light: #a78bfa;
+        --primary-dark: #6d28d9;
+        --secondary: #ec4899;
+        --accent: #06b6d4;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #0f172a;
+        --darker: #020617;
+        --light: #f8fafc;
+        --gray: #64748b;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        color: var(--light);
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      .bg-animation span {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(139, 92, 246, 0.1) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        animation: floatBg 20s infinite ease-in-out;
+      }
+
+      @keyframes floatBg {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(100px, -100px) scale(1.2);
+        }
+        66% {
+          transform: translate(-100px, 50px) scale(0.9);
+        }
+      }
+
+      /* Glassmorphism */
+      .glass {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 28px;
+      }
+
+      .glass-card {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        border-radius: 28px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .glass-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+      }
+
+      /* Buttons */
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        padding: 12px 28px;
+        border-radius: 40px;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary);
+        padding: 10px 24px;
+        border-radius: 40px;
+        color: var(--primary-light);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-outline:hover {
+        background: var(--primary);
+        color: white;
+      }
+
+      /* Input & Textarea */
+      input,
+      textarea,
+      select {
+        background: rgba(2, 6, 23, 0.8);
+        border: 2px solid rgba(139, 92, 246, 0.3);
+        border-radius: 20px;
+        padding: 12px 18px;
+        color: var(--light);
+        width: 100%;
+        outline: none;
+        transition: all 0.3s;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+      }
+
+      /* File Upload Area */
+      .upload-area {
+        border: 2px dashed rgba(139, 92, 246, 0.4);
+        border-radius: 24px;
+        padding: 40px;
+        text-align: center;
+        transition: all 0.3s;
+        cursor: pointer;
+        background: rgba(139, 92, 246, 0.05);
+      }
+
+      .upload-area.drag-over {
+        border-color: var(--primary);
+        background: rgba(139, 92, 246, 0.15);
+        transform: scale(1.02);
+      }
+
+      /* File Card */
+      .file-card {
+        background: rgba(139, 92, 246, 0.1);
+        border-radius: 20px;
+        padding: 15px;
+        transition: all 0.3s;
+      }
+
+      .file-card:hover {
+        background: rgba(139, 92, 246, 0.2);
+        transform: translateX(5px);
+      }
+
+      /* Modal */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        padding: 15px 25px;
+        border-radius: 20px;
+        z-index: 3000;
+        animation: slideIn 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Video Player */
+      .video-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      video {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Progress Bar */
+      .progress-bar {
+        height: 8px;
+        background: rgba(139, 92, 246, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 10px;
+        transition: width 0.5s;
+      }
+
+      /* Badge */
+      .badge {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .glass-card {
+          margin: 10px;
+        }
+        .upload-area {
+          padding: 20px;
+        }
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--darker);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-animation">
+      <span
+        style="
+          top: 10%;
+          left: 10%;
+          width: 400px;
+          height: 400px;
+          animation-delay: 0s;
+        "
+      ></span>
+      <span
+        style="
+          bottom: 20%;
+          right: 10%;
+          width: 350px;
+          height: 350px;
+          animation-delay: 5s;
+        "
+      ></span>
+      <span
+        style="
+          top: 50%;
+          left: 50%;
+          width: 500px;
+          height: 500px;
+          animation-delay: 2s;
+        "
+      ></span>
+    </div>
+
+    <div id="app" style="position: relative; z-index: 1"></div>
+
+    <script>
+      // ==================== DATA STORAGE ====================
+      const STORAGE = {
+        users: "edulearn_users",
+        courses: "edulearn_courses",
+        enrollments: "edulearn_enrollments",
+        files: "edulearn_files", // All uploaded files (assignments, notes, videos)
+        comments: "edulearn_comments", // Comments on files
+        certificates: "edulearn_certificates",
+      };
+
+      // Initialize Data
+      function initData() {
+        if (!localStorage.getItem(STORAGE.users)) {
+          const users = [
+            {
+              id: 1,
+              name: "Alex Kumar",
+              email: "student@edulearn.com",
+              password: btoa("Student@123"),
+              role: "student",
+              avatar: "👨‍🎓",
+              bio: "Passionate learner",
+            },
+            {
+              id: 2,
+              name: "Prof. Sarah",
+              email: "teacher@edulearn.com",
+              password: btoa("Teacher@123"),
+              role: "teacher",
+              avatar: "👩‍🏫",
+              bio: "Expert in Web Dev",
+            },
+            {
+              id: 3,
+              name: "Admin Raj",
+              email: "admin@edulearn.com",
+              password: btoa("Admin@123"),
+              role: "admin",
+              avatar: "👑",
+              bio: "Platform Admin",
+            },
+          ];
+          localStorage.setItem(STORAGE.users, JSON.stringify(users));
+        }
+
+        if (!localStorage.getItem(STORAGE.courses)) {
+          const courses = [
+            {
+              id: 1,
+              title: "Complete Web Development",
+              instructor: "Prof. Sarah",
+              description: "Master Full-Stack Development",
+              thumbnail:
+                "https://images.unsplash.com/photo-1627398242454-45a1695bddc5?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "48h",
+              level: "Beginner",
+              students: 12500,
+              rating: 4.9,
+            },
+            {
+              id: 2,
+              title: "Python Data Science",
+              instructor: "Prof. Sarah",
+              description: "Learn Python, Pandas, NumPy",
+              thumbnail:
+                "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+              videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+              duration: "40h",
+              level: "Intermediate",
+              students: 8900,
+              rating: 4.8,
+            },
+          ];
+          localStorage.setItem(STORAGE.courses, JSON.stringify(courses));
+        }
+
+        if (!localStorage.getItem(STORAGE.files)) {
+          localStorage.setItem(STORAGE.files, JSON.stringify([]));
+        }
+        if (!localStorage.getItem(STORAGE.comments)) {
+          localStorage.setItem(STORAGE.comments, JSON.stringify([]));
+        }
+        if (!localStorage.getItem(STORAGE.enrollments)) {
+          localStorage.setItem(STORAGE.enrollments, JSON.stringify([]));
+        }
+        if (!localStorage.getItem(STORAGE.certificates)) {
+          localStorage.setItem(STORAGE.certificates, JSON.stringify([]));
+        }
+      }
+      initData();
+
+      // Helper Functions
+      function getUsers() {
+        return JSON.parse(localStorage.getItem(STORAGE.users));
+      }
+      function saveUsers(users) {
+        localStorage.setItem(STORAGE.users, JSON.stringify(users));
+      }
+      function getCourses() {
+        return JSON.parse(localStorage.getItem(STORAGE.courses));
+      }
+      function getFiles() {
+        return JSON.parse(localStorage.getItem(STORAGE.files));
+      }
+      function saveFiles(files) {
+        localStorage.setItem(STORAGE.files, JSON.stringify(files));
+      }
+      function getComments() {
+        return JSON.parse(localStorage.getItem(STORAGE.comments));
+      }
+      function saveComments(comments) {
+        localStorage.setItem(STORAGE.comments, JSON.stringify(comments));
+      }
+      function getEnrollments() {
+        return JSON.parse(localStorage.getItem(STORAGE.enrollments));
+      }
+      function saveEnrollments(enrollments) {
+        localStorage.setItem(STORAGE.enrollments, JSON.stringify(enrollments));
+      }
+      function getSession() {
+        return JSON.parse(sessionStorage.getItem("edulearn_session") || "null");
+      }
+      function setSession(user) {
+        sessionStorage.setItem("edulearn_session", JSON.stringify(user));
+      }
+      function destroySession() {
+        sessionStorage.removeItem("edulearn_session");
+      }
+
+      let currentUser = getSession();
+      let currentView = "landing";
+
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        toast.innerHTML = `<i class="fas fa-${type === "success" ? "check-circle" : "info-circle"}" style="margin-right: 10px;"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      // ==================== RENDER FUNCTIONS ====================
+      function renderApp() {
+        const container = document.getElementById("app");
+        if (!container) return;
+
+        if (currentUser) {
+          if (currentUser.role === "admin") renderAdminPanel(container);
+          else if (currentUser.role === "teacher")
+            renderTeacherPanel(container);
+          else renderStudentDashboard(container);
+        } else {
+          if (currentView === "landing") renderLanding(container);
+          else if (currentView === "login") renderLogin(container);
+          else if (currentView === "signup") renderSignup(container);
+          else renderLanding(container);
+        }
+      }
+
+      // ==================== LANDING PAGE ====================
+      function renderLanding(container) {
+        const files = getFiles().slice(-6);
+        container.innerHTML = `
+        <div style="min-height: 100vh;">
+          <!-- Navbar -->
+          <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; background: rgba(2,6,23,0.8);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <i class="fas fa-graduation-cap" style="font-size: 2rem; background: linear-gradient(135deg, #8B5CF6, #EC4899); -webkit-background-clip: text; background-clip: text; color: transparent;"></i>
+              <h2 style="background: linear-gradient(135deg, #fff, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent;">E-EduLearn</h2>
+            </div>
+            <div>
+              <button onclick="window.navigate('login')" class="btn-outline" style="margin-right: 1rem;">Login</button>
+              <button onclick="window.navigate('signup')" class="btn-primary">Sign Up Free</button>
+            </div>
+          </nav>
+
+          <!-- Hero -->
+          <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 2rem; text-align: center;">
+            <div style="max-width: 800px;">
+              <h1 style="font-size: 4rem; font-weight: 800; margin-bottom: 1rem;">Share, Learn & <span style="background: linear-gradient(135deg, #8B5CF6, #EC4899); -webkit-background-clip: text; background-clip: text; color: transparent;">Grow Together</span></h1>
+              <p style="font-size: 1.2rem; color: #94A3B8; margin-bottom: 2rem;">Upload assignments, share notes, watch video lectures, and collaborate with peers worldwide.</p>
+              <button onclick="window.navigate('signup')" class="btn-primary" style="padding: 15px 40px;">Start Learning →</button>
+            </div>
+          </div>
+
+          <!-- Recent Uploads Section -->
+          <div style="padding: 3rem 5%; background: rgba(139,92,246,0.05);">
+            <h2 style="text-align: center; margin-bottom: 2rem;">📁 Recent Community Uploads</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+              ${files
+                .map(
+                  (file) => `
+                <div class="glass-card" style="padding: 1rem; cursor: pointer;" onclick="viewFileDetails('${file.id}')">
+                  <div style="display: flex; gap: 1rem;">
+                    <div style="background: linear-gradient(135deg, #8B5CF6, #EC4899); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                      <i class="fas fa-${file.type === "video" ? "video" : file.type === "pdf" ? "file-pdf" : "file-alt"}" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                      <h4>${file.title}</h4>
+                      <p style="color: #94A3B8; font-size: 0.8rem;">By ${file.uploaderName} • ${new Date(file.date).toLocaleDateString()}</p>
+                      <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <span><i class="fas fa-download"></i> ${file.downloads || 0}</span>
+                        <span><i class="fas fa-eye"></i> ${file.views || 0}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `,
+                )
+                .join("")}
+              ${files.length === 0 ? '<div class="glass-card" style="padding: 3rem; text-align: center;"><p>No files uploaded yet. Be the first to share!</p></div>' : ""}
+            </div>
+          </div>
+        </div>
+      `;
+      }
+
+      // ==================== LOGIN ====================
+      function renderLogin(container) {
+        container.innerHTML = `
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+          <div class="glass" style="max-width: 450px; width: 100%; padding: 2.5rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Welcome Back 👋</h2>
+            <form id="loginForm">
+              <input type="email" id="email" placeholder="Email" style="margin-bottom: 1rem;">
+              <input type="password" id="password" placeholder="Password" style="margin-bottom: 1.5rem;">
+              <button type="submit" class="btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">Demo: student@edulearn.com / Student@123</p>
+          </div>
+        </div>
+      `;
+        document
+          .getElementById("loginForm")
+          ?.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const user = getUsers().find(
+              (u) => u.email === email && btoa(password) === u.password,
+            );
+            if (user) {
+              setSession(user);
+              currentUser = user;
+              renderApp();
+              showToast("Login successful!");
+            } else showToast("Invalid credentials", "error");
+          });
+      }
+
+      function renderSignup(container) {
+        container.innerHTML = `
+        <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+          <div class="glass" style="max-width: 450px; width: 100%; padding: 2.5rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Create Account ✨</h2>
+            <form id="signupForm">
+              <input type="text" id="name" placeholder="Full Name" style="margin-bottom: 1rem;">
+              <input type="email" id="email" placeholder="Email" style="margin-bottom: 1rem;">
+              <input type="password" id="password" placeholder="Password" style="margin-bottom: 1.5rem;">
+              <button type="submit" class="btn-primary" style="width: 100%;">Sign Up</button>
+            </form>
+          </div>
+        </div>
+      `;
+        document
+          .getElementById("signupForm")
+          ?.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            if (getUsers().find((u) => u.email === email)) {
+              showToast("Email exists", "error");
+              return;
+            }
+            const newUser = {
+              id: Date.now(),
+              name,
+              email,
+              password: btoa(password),
+              role: "student",
+              avatar: "👨‍🎓",
+              bio: "",
+            };
+            const users = getUsers();
+            users.push(newUser);
+            saveUsers(users);
+            showToast("Account created! Please login.");
+            window.navigate("login");
+          });
+      }
+
+      // ==================== STUDENT DASHBOARD WITH FILE UPLOAD ====================
+      function renderStudentDashboard(container) {
+        const myFiles = getFiles().filter(
+          (f) => f.uploaderId === currentUser.id,
+        );
+        const allFiles = getFiles();
+        const enrollments = getEnrollments().filter(
+          (e) => e.studentId === currentUser.id,
+        );
+
+        container.innerHTML = `
+        <div style="padding: 1rem 2rem;">
+          <!-- Header -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
+            <div>
+              <h1>Welcome, ${currentUser.name}! 🚀</h1>
+              <p style="color: #94A3B8;">Share files, watch videos, and collaborate</p>
+            </div>
+            <div><button onclick="handleLogout()" class="btn-outline">Logout</button></div>
+          </div>
+
+          <!-- Upload Section -->
+          <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+            <h3><i class="fas fa-cloud-upload-alt"></i> Upload & Share Files</h3>
+            <p style="color: #94A3B8; margin-bottom: 1rem;">Upload assignments, notes, videos - anyone can view/download!</p>
+            <div id="dropZone" class="upload-area" onclick="document.getElementById('fileInput').click()">
+              <i class="fas fa-upload" style="font-size: 3rem; color: #8B5CF6;"></i>
+              <p>Drag & drop or click to upload</p>
+              <p style="font-size: 0.8rem; color: #64748B;">Supports: PDF, Video, Images, Documents</p>
+              <input type="file" id="fileInput" style="display: none;" accept=".pdf,.mp4,.jpg,.png,.docx,.pptx">
+            </div>
+            <div style="margin-top: 1rem;">
+              <input type="text" id="fileTitle" placeholder="File Title" style="width: calc(100% - 120px); display: inline-block; margin-right: 10px;">
+              <button onclick="uploadFile()" class="btn-primary" style="width: 100px;">Upload</button>
+            </div>
+          </div>
+
+          <!-- My Uploads -->
+          <h3>📤 My Uploads (${myFiles.length})</h3>
+          <div style="display: grid; gap: 1rem; margin: 1rem 0 2rem;">
+            ${myFiles
+              .map(
+                (file) => `
+              <div class="file-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                  <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-${file.type === "video" ? "video" : file.type === "pdf" ? "file-pdf" : "file-alt"}" style="font-size: 1.5rem; color: #8B5CF6;"></i>
+                    <div>
+                      <strong>${file.title}</strong>
+                      <p style="font-size: 0.8rem; color: #94A3B8;">${file.fileName} • ${(file.size / 1024).toFixed(1)} KB • ${file.downloads || 0} downloads</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn-outline" style="padding: 5px 15px; margin-right: 5px;" onclick="viewFileDetails('${file.id}')"><i class="fas fa-eye"></i> View</button>
+                    <button class="btn-outline" style="padding: 5px 15px;" onclick="deleteFile('${file.id}')"><i class="fas fa-trash"></i> Delete</button>
+                  </div>
+                </div>
+              </div>
+            `,
+              )
+              .join("")}
+            ${myFiles.length === 0 ? '<div class="glass" style="padding: 2rem; text-align: center;"><p>No files uploaded yet. Share your first file above!</p></div>' : ""}
+          </div>
+
+          <!-- Community Files (All Users) -->
+          <h3>🌍 Community Files (${allFiles.length})</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            ${allFiles
+              .filter((f) => f.uploaderId !== currentUser.id)
+              .slice(0, 6)
+              .map(
+                (file) => `
+              <div class="glass-card" style="padding: 1rem; cursor: pointer;" onclick="viewFileDetails('${file.id}')">
+                <div style="display: flex; gap: 1rem;">
+                  <div style="background: linear-gradient(135deg, #8B5CF6, #EC4899); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-${file.type === "video" ? "video" : file.type === "pdf" ? "file-pdf" : "file-alt"}"></i>
+                  </div>
+                  <div>
+                    <h4>${file.title}</h4>
+                    <p style="color: #94A3B8; font-size: 0.75rem;">By ${file.uploaderName}</p>
+                    <small><i class="fas fa-download"></i> ${file.downloads || 0} • <i class="fas fa-comment"></i> ${getComments().filter((c) => c.fileId === file.id).length}</small>
+                  </div>
+                </div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+
+        // Drag & Drop
+        const dropZone = document.getElementById("dropZone");
+        const fileInput = document.getElementById("fileInput");
+
+        dropZone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          dropZone.classList.add("drag-over");
+        });
+        dropZone.addEventListener("dragleave", () =>
+          dropZone.classList.remove("drag-over"),
+        );
+        dropZone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          dropZone.classList.remove("drag-over");
+          const files = e.dataTransfer.files;
+          if (files.length) handleFileUpload(files[0]);
+        });
+
+        window.uploadFile = () => {
+          const file = fileInput.files[0];
+          if (!file) {
+            showToast("Select a file first", "error");
+            return;
+          }
+          handleFileUpload(file);
+        };
+      }
+
+      async function handleFileUpload(file) {
+        const title = document.getElementById("fileTitle")?.value;
+        if (!title) {
+          showToast("Enter file title", "error");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const files = getFiles();
+          const newFile = {
+            id: Date.now().toString(),
+            title: title,
+            fileName: file.name,
+            type: file.type.startsWith("video")
+              ? "video"
+              : file.type === "application/pdf"
+                ? "pdf"
+                : "document",
+            data: e.target.result,
+            size: file.size,
+            uploaderId: currentUser.id,
+            uploaderName: currentUser.name,
+            uploaderAvatar: currentUser.avatar,
+            date: new Date().toISOString(),
+            downloads: 0,
+            views: 0,
+            likes: 0,
+          };
+          files.push(newFile);
+          saveFiles(files);
+          showToast(
+            "File uploaded successfully! Others can now view/download.",
+          );
+          document.getElementById("fileTitle").value = "";
+          document.getElementById("fileInput").value = "";
+          renderStudentDashboard(document.getElementById("app"));
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // View File Details with Download & Comments
+      window.viewFileDetails = function (fileId) {
+        const files = getFiles();
+        const file = files.find((f) => f.id === fileId);
+        if (!file) return;
+
+        // Increment views
+        file.views = (file.views || 0) + 1;
+        saveFiles(files);
+
+        const comments = getComments().filter((c) => c.fileId === fileId);
+
+        const modal = document.createElement("div");
+        modal.className = "modal";
+        modal.innerHTML = `
+        <div class="glass" style="max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; padding: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>${file.title}</h2>
+            <i class="fas fa-times" style="font-size: 1.5rem; cursor: pointer;" onclick="this.closest('.modal').remove()"></i>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <p><strong>Uploaded by:</strong> ${file.uploaderName}</p>
+            <p><strong>Date:</strong> ${new Date(file.date).toLocaleString()}</p>
+            <p><strong>Size:</strong> ${(file.size / 1024).toFixed(1)} KB</p>
+            <p><strong>Views:</strong> ${file.views} • <strong>Downloads:</strong> ${file.downloads}</p>
+          </div>
+          
+          ${
+            file.type === "video"
+              ? `
+            <div class="video-wrapper">
+              <video controls src="${file.data}" style="width: 100%; border-radius: 16px;"></video>
+            </div>
+          `
+              : file.type === "pdf"
+                ? `
+            <iframe src="${file.data}" style="width: 100%; height: 400px; border-radius: 16px;"></iframe>
+          `
+                : `
+            <div class="glass" style="padding: 2rem; text-align: center;">
+              <i class="fas fa-file-alt" style="font-size: 4rem; color: #8B5CF6;"></i>
+              <p>Document: ${file.fileName}</p>
+              <a href="${file.data}" download="${file.fileName}" class="btn-primary" style="display: inline-block; margin-top: 1rem;">Download File</a>
+            </div>
+          `
+          }
+          
+          <div style="margin: 1rem 0; display: flex; gap: 1rem;">
+            <button onclick="downloadFile('${file.id}')" class="btn-primary"><i class="fas fa-download"></i> Download</button>
+            <button onclick="likeFile('${file.id}')" class="btn-outline"><i class="fas fa-heart"></i> Like (${file.likes || 0})</button>
+          </div>
+          
+          <div class="glass" style="padding: 1rem; margin: 1rem 0;">
+            <h4>Comments 💬</h4>
+            <div id="commentsList" style="max-height: 200px; overflow-y: auto;">
+              ${comments
+                .map(
+                  (c) => `
+                <div style="padding: 0.5rem; border-bottom: 1px solid rgba(139,92,246,0.1);">
+                  <strong>${c.userName}</strong>: ${c.comment}
+                  <small style="color: #64748B; display: block;">${new Date(c.date).toLocaleString()}</small>
+                </div>
+              `,
+                )
+                .join("")}
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+              <input type="text" id="commentInput" placeholder="Write a comment..." style="flex: 1;">
+              <button onclick="addComment('${file.id}')" class="btn-primary">Post</button>
+            </div>
+          </div>
+        </div>
+      `;
+        document.body.appendChild(modal);
+      };
+
+      window.downloadFile = function (fileId) {
+        const files = getFiles();
+        const file = files.find((f) => f.id === fileId);
+        if (file) {
+          file.downloads = (file.downloads || 0) + 1;
+          saveFiles(files);
+          const link = document.createElement("a");
+          link.href = file.data;
+          link.download = file.fileName;
+          link.click();
+          showToast("Download started!");
+        }
+      };
+
+      window.likeFile = function (fileId) {
+        const files = getFiles();
+        const file = files.find((f) => f.id === fileId);
+        if (file) {
+          file.likes = (file.likes || 0) + 1;
+          saveFiles(files);
+          showToast("❤️ Liked!");
+          viewFileDetails(fileId);
+        }
+      };
+
+      window.addComment = function (fileId) {
+        const comment = document.getElementById("commentInput")?.value;
+        if (!comment) return;
+        const comments = getComments();
+        comments.push({
+          id: Date.now(),
+          fileId: fileId,
+          userId: currentUser.id,
+          userName: currentUser.name,
+          comment: comment,
+          date: new Date().toISOString(),
+        });
+        saveComments(comments);
+        showToast("Comment added!");
+        document.querySelector(".modal")?.remove();
+        viewFileDetails(fileId);
+      };
+
+      window.deleteFile = function (fileId) {
+        if (confirm("Delete this file?")) {
+          let files = getFiles();
+          files = files.filter((f) => f.id !== fileId);
+          saveFiles(files);
+          showToast("File deleted");
+          renderStudentDashboard(document.getElementById("app"));
+        }
+      };
+
+      function renderTeacherPanel(container) {
+        container.innerHTML = `
+        <div style="padding: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>👩‍🏫 Teacher Dashboard</h1>
+            <button onclick="handleLogout()" class="btn-outline">Logout</button>
+          </div>
+          <div class="glass" style="padding: 2rem; text-align: center;">
+            <i class="fas fa-chalkboard" style="font-size: 4rem; color: #8B5CF6;"></i>
+            <h3>Manage Courses & Student Submissions</h3>
+            <p style="color: #94A3B8;">You can view all student uploads and provide feedback.</p>
+            <button class="btn-primary" onclick="window.navigate('student')" style="margin-top: 1rem;">View Community Files →</button>
+          </div>
+        </div>
+      `;
+      }
+
+      function renderAdminPanel(container) {
+        const files = getFiles();
+        const users = getUsers();
+        container.innerHTML = `
+        <div style="padding: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>👑 Admin Panel</h1>
+            <button onclick="handleLogout()" class="btn-outline">Logout</button>
+          </div>
+          <div style="display: grid; gap: 1rem;">
+            <div class="glass" style="padding: 1.5rem;">
+              <h3>Platform Stats</h3>
+              <p>👥 Users: ${users.length} | 📁 Files: ${files.length} | 💬 Comments: ${getComments().length}</p>
+            </div>
+            <div class="glass" style="padding: 1.5rem;">
+              <h3>All Files</h3>
+              ${files.map((f) => `<div style="padding: 0.5rem; border-bottom: 1px solid rgba(139,92,246,0.1);">📄 ${f.title} - by ${f.uploaderName} <button onclick="deleteFile('${f.id}')" style="float: right;" class="btn-outline">Delete</button></div>`).join("")}
+            </div>
+          </div>
+        </div>
+      `;
+        window.deleteFile = (id) => {
+          let files = getFiles();
+          files = files.filter((f) => f.id !== id);
+          saveFiles(files);
+          renderAdminPanel(container);
+          showToast("File deleted");
+        };
+      }
+
+      window.handleLogout = () => {
+        destroySession();
+        currentUser = null;
+        renderApp();
+        showToast("Logged out");
+      };
+      window.navigate = (view) => {
+        currentView = view;
+        renderApp();
+      };
+
+      renderApp();
+    </script>
+  </body>
+</html>
