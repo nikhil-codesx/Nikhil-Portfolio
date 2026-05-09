@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nikhil-CodesX</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #020205;
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020205;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #ff2eb1;
+        border-radius: 4px;
+      }
+
+      /* ========== SCROLL REVEAL ANIMATIONS ========== */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 1s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+          transform 1s ease;
+      }
+      .fade-up.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .fade-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition:
+          opacity 1s ease,
+          transform 1s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+      .fade-left.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .fade-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition:
+          opacity 1s ease,
+          transform 1s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+      .fade-right.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .zoom-in {
+        opacity: 0;
+        transform: scale(0.92);
+        transition:
+          opacity 0.6s ease,
+          transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      }
+      .zoom-in.show {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* ========== BUTTON ANIMATIONS (FIXED & ENHANCED) ========== */
+      /* Primary Glow Pulse Button */
+      .btn-glow-pulse {
+        background: #ff2eb1;
+        transition: all 1s ease;
+        box-shadow: 0 0 12px rgba(255, 46, 177, 0.4);
+        animation: softPulse 1s infinite alternate;
+      }
+      @keyframes softPulse {
+        0% {
+          box-shadow: 0 0 8px rgba(255, 46, 177, 0.4);
+          background: #ff2eb1;
+        }
+        100% {
+          box-shadow: 0 0 24px rgba(255, 46, 177, 0.8);
+          background: #ff4bc0;
+        }
+      }
+      .btn-glow-pulse:hover {
+        transform: scale(1.03) translateY(-2px);
+        animation: none;
+        box-shadow: 0 0 32px #ff2eb1;
+        background: #ff5ac8;
+      }
+
+      /* Chroma Border Button */
+      .btn-chroma {
+        background: transparent;
+        border: 1.5px solid rgba(255, 46, 177, 0.5);
+        color: #ff7eb3;
+        transition: all 1s ease;
+        backdrop-filter: blur(4px);
+      }
+      .btn-chroma:hover {
+        border-color: #ff2eb1;
+        color: white;
+        background: rgba(255, 46, 177, 0.12);
+        box-shadow: 0 0 20px rgba(255, 46, 177, 0.5);
+        transform: translateY(-2px);
+      }
+
+      /* Neon Flicker / Cyber Button */
+      .btn-neon {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid #ff2eb1;
+        color: #ffb6dc;
+        transition: all 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-neon::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 46, 177, 0.6),
+          transparent
+        );
+        transition: left 1s;
+      }
+      .btn-neon:hover {
+        background: #ff2eb1;
+        color: #020205;
+        border-color: #fff;
+        box-shadow: 0 0 22px #ff2eb1;
+        transform: scale(1.02);
+      }
+      .btn-neon:hover::before {
+        left: 100%;
+      }
+
+      /* Rainbow Border Button (Contact Send) */
+      .btn-rainbow {
+        position: relative;
+        background: rgba(255, 46, 177, 0.1);
+        border: none;
+        color: white;
+        z-index: 1;
+        transition: all 1s;
+      }
+      .btn-rainbow::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 9999px;
+        padding: 2px;
+        background: linear-gradient(125deg, #ff2eb1, #ffb347, #4488ff, #ff2eb1);
+        background-size: 200% 200%;
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+      .btn-rainbow:hover::before {
+        opacity: 1;
+        animation: borderSpin 1.2s linear infinite;
+      }
+      .btn-rainbow:hover {
+        background: rgba(255, 46, 177, 0.25);
+        transform: translateY(-3px);
+        color: #fff;
+        box-shadow: 0 0 20px rgba(255, 46, 177, 0.4);
+      }
+      @keyframes borderSpin {
+        0% {
+          background-position: 0% 0%;
+        }
+        100% {
+          background-position: 200% 200%;
+        }
+      }
+
+      /* Project Card Hover Effects */
+      .project-card:hover .project-overlay {
+        opacity: 1;
+      }
+      .project-card:hover .project-tech {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .project-card:hover .project-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .float-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Stars particles */
+      .star-particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: twinkle 3s infinite alternate;
+      }
+      @keyframes twinkle {
+        0% {
+          opacity: 0.15;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0.7;
+          transform: scale(1.3);
+          background: #ff2eb1;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-[#020205] text-white">
+    <div id="root">
+      <div class="min-h-screen bg-[#020205]">
+        <!-- ========== NAVBAR (all colors preserved) ========== -->
+        <nav
+          class="fixed top-0 left-0 right-0 z-40 transition-all duration-500 bg-background/80 backdrop-blur-xl border-b border-white/5"
+        >
+          <div
+            class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+          >
+            <button id="logoHomeBtn" class="flex items-center gap-2 group">
+              <div
+                class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center group-hover:bg-primary/40 transition-all"
+              >
+                <img src="image/logo5.png " ><div class="w-3 h-3 rounded-full bg-primary"></div>
+              </div>
+              <span
+                class="text-white font-semibold text-sm tracking-wider uppercase group-hover:text-primary transition"
+                >Portfolio</span
+              >
+            </button>
+            <div class="hidden md:flex items-center gap-8">
+              <button
+                data-nav="home"
+                class="text-sm text-white/60 hover:text-primary transition-colors font-mono tracking-wider uppercase"
+              >
+                Home
+              </button>
+              <button
+                data-nav="projects"
+                class="text-sm text-white/60 hover:text-primary transition-colors font-mono tracking-wider uppercase"
+              >
+                Projects
+              </button>
+              <button
+                data-nav="about"
+                class="text-sm text-white/60 hover:text-primary transition-colors font-mono tracking-wider uppercase"
+              >
+                About
+              </button>
+              <button
+                data-nav="contact"
+                class="text-sm text-white/60 hover:text-primary transition-colors font-mono tracking-wider uppercase"
+              >
+                Contact
+              </button>
+              <button
+                data-nav="otherprofile"
+                class="text-sm text-white/60 hover:text-primary transition-colors font-mono tracking-wider uppercase"
+              >
+                OTHER PROFILE
+              </button>
+            </div>
+            <button
+              data-nav="contact"
+              class="btn-neon hidden md:block px-5 py-2 rounded-full text-xs font-mono tracking-wider uppercase transition-all"
+            >
+              Let's Talk
+            </button>
+            <button id="mobileMenuBtn" class="md:hidden text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="4" x2="20" y1="12" y2="12" />
+                <line x1="4" x2="20" y1="6" y2="6" />
+                <line x1="4" x2="20" y1="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+          <div
+            id="mobileMenu"
+            class="hidden md:hidden bg-[#020205]/95 backdrop-blur-xl border-b border-white/10 flex flex-col p-4 gap-3"
+          >
+            <button
+              data-nav="home"
+              class="text-left text-white/80 py-2 font-mono tracking-wider hover:text-primary transition"
+            >
+              HOME
+            </button>
+            <button
+              data-nav="projects"
+              class="text-left text-white/80 py-2 font-mono tracking-wider hover:text-primary transition"
+            >
+              PROJECTS
+            </button>
+            <button
+              data-nav="about"
+              class="text-left text-white/80 py-2 font-mono tracking-wider hover:text-primary transition"
+            >
+              ABOUT
+            </button>
+            <button
+              data-nav="contact"
+              class="text-left text-white/80 py-2 font-mono tracking-wider hover:text-primary transition"
+            >
+              CONTACT
+            </button>
+            <button
+              data-nav="otherprofile"
+              class="text-sm text-white/60 hover:text-primary transition-colors font-mono tracking-wider uppercase"
+            >
+              OTHER PROFILE
+            </button>
+          </div>
+        </nav>
+
+        <!-- ========== HERO SECTION (full original content + animated buttons) ========== -->
+        <section
+          id="home"
+          class="relative min-h-screen flex items-center overflow-hidden bg-[#020205]"
+        >
+          <div
+            class="absolute inset-0 overflow-hidden pointer-events-none"
+            id="starsContainer"
+          ></div>
+          <div
+            class="absolute inset-0 pointer-events-none"
+            style="
+              background: radial-gradient(
+                at 70% 50%,
+                rgba(255, 46, 177, 0.08) 0%,
+                transparent 60%
+              );
+            "
+          ></div>
+          <div
+            class="relative z-10 max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-8 items-center pt-20"
+          >
+            <div class="flex flex-col gap-6 fade-left">
+              <div class="flex items-center gap-3">
+                <div class="h-[1px] w-12 bg-primary"></div>
+                <span
+                  class="text-primary text-xs font-mono tracking-[0.3em] uppercase"
+                  ><b>Creative Developer</b>
+                </span>
+              </div>
+              <h1
+                class="text-4xl sm:text-5xl lg:text-7xl font-inter font-bold text-white leading-[1.05] tracking-tight"
+              >
+                Building<br /><span class="text-primary"
+                  ><font color="blur"><b>Digital</b></font></span
+                ><br />Experiences
+              </h1>
+              <p
+                class="text-white/50 text-base lg:text-lg max-w-md leading-relaxed font-inter"
+              >
+                Crafting immersive web experiences at the intersection of
+                design, technology, and human emotion. Welcome to the future.
+              </p>
+              <div class="flex flex-wrap gap-4 mt-4">
+                <button
+                  data-nav="projects"
+                  class="btn-glow-pulse px-8 py-3.5 text-white rounded-full text-sm font-medium tracking-wider uppercase"
+                >
+                  View Projects
+                </button>
+                <button
+                  data-nav="contact"
+                  class="btn-chroma px-8 py-3.5 rounded-full text-sm font-medium tracking-wider uppercase transition-all"
+                >
+                  Get In Touch
+                </button>
+              </div>
+              <div class="flex gap-10 mt-8">
+                <div>
+                  <div class="text-2xl font-bold text-white">50+</div>
+                  <div
+                    class="text-xs text-white/40 font-mono tracking-wider uppercase"
+                  >
+                    Projects
+                  </div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-white">5+</div>
+                  <div
+                    class="text-xs text-white/40 font-mono tracking-wider uppercase"
+                  >
+                    Years Exp
+                  </div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-white">30+</div>
+                  <div
+                    class="text-xs text-white/40 font-mono tracking-wider uppercase"
+                  >
+                    Clients
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="relative flex justify-center lg:justify-end fade-right">
+              <div class="relative">
+                <div
+                  class="absolute inset-0 blur-3xl opacity-30"
+                  style="
+                    background: radial-gradient(
+                      circle,
+                      rgb(255, 46, 177) 0%,
+                      transparent 70%
+                    );
+                  "
+                ></div>
+                <img
+                  src="image/me1.jpg"
+                  alt="Friendly robot"
+                  class="relative z-10 w-40 lg:w-[300px] drop-shadow-2xl float-animation rounded-full object-cover"
+                  style="
+                    filter: drop-shadow(0px 10px 40px rgba(255, 46, 177, 0.3));
+                  "
+                />
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] aspect-square border border-primary/10 rounded-full"
+                ></div>
+                <div
+                  class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] aspect-square border border-white/5 rounded-full"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <button
+            data-nav="projects"
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 transition-all hover:text-primary group"
+          >
+            <span
+              class="text-[10px] font-mono tracking-[0.3em] uppercase group-hover:tracking-wider transition-all"
+              >Scroll</span
+            >
+            <svg
+              class="group-hover:translate-y-1 transition-transform"
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14"></path>
+              <path d="m19 12-7 7-7-7"></path>
+            </svg>
+          </button>
+        </section>
+
+        <!-- ========== PROJECTS SECTION (full cards + scroll animations) ========== -->
+        <section id="projects" class="relative py-24 lg:py-32 bg-[#020205]">
+          <div class="max-w-7xl mx-auto px-6 mb-12">
+            <div class="fade-up">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="h-[1px] w-12 bg-primary"></div>
+                <span
+                  class="text-primary text-xs font-mono tracking-[0.3em] uppercase"
+                  >Selected Work</span
+                >
+              </div>
+              <div class="flex items-end justify-between flex-wrap gap-4">
+                <h2
+                  class="text-3xl lg:text-5xl font-inter font-bold text-white tracking-tight"
+                >
+                  The Archive
+                </h2>
+                <div class="hidden sm:flex gap-2">
+                  <button
+                    id="scrollLeftBtn"
+                    class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="m15 18-6-6 6-6" />
+                    </svg>
+                  </button>
+                  <button
+                    id="scrollRightBtn"
+                    class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-primary hover:border-primary/50 transition-all"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            id="projectsScroll"
+            class="flex gap-6 overflow-x-auto scrollbar-hide px-6 lg:px-[calc((100vw-1280px)/2+24px)] pb-4"
+          >
+            <!-- Project 1 -->
+            <a href="project/project1.html">
+              <div
+                class="project-card group relative flex-shrink-0 w-[340px] sm:w-[400px] lg:w-[500px] cursor-pointer transition-all duration-300 hover:-translate-y-1 zoom-in"
+              >
+                <div
+                  class="relative overflow-hidden rounded-2xl aspect-video border border-white/5"
+                >
+                  <img
+                    src="https://media.base44.com/images/public/69f441e4ae76dea58a9f0690/ebcdda813_generated_10695fd6.png"
+                    alt="Quantum Interface"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div
+                    class="project-overlay absolute inset-0 bg-gradient-to-t from-[#020205]/90 via-primary/10 to-transparent opacity-0 transition-all duration-300"
+                  ></div>
+                  <div
+                    class="project-tech absolute bottom-4 left-4 right-4 flex flex-wrap gap-2 opacity-0 translate-y-2 transition-all duration-300"
+                  >
+                    <span
+                      class="px-3 py-1 text-[10px] font-mono tracking-wider uppercase bg-white/10 backdrop-blur-sm border border-white/10 rounded-full text-white/80"
+                      >React</span
+                    >
+                    <span
+                      class="px-3 py-1 text-[10px] font-mono tracking-wider uppercase bg-white/10 backdrop-blur-sm border border-white/10 rounded-full text-white/80"
+                      >Three.js</span
+                    >
+                    <span
+                      class="px-3 py-1 text-[10px] font-mono tracking-wider uppercase bg-white/10 backdrop-blur-sm border border-white/10 rounded-full text-white/80"
+                      >WebGL</span
+                    >
+                    <span
+                      class="px-3 py-1 text-[10px] font-mono tracking-wider uppercase bg-white/10 backdrop-blur-sm border border-white/10 rounded-full text-white/80"
+                      >Node.js</span
+                    >
+                  </div>
+                  <div
+                    class="project-icon absolute top-4 right-4 opacity-0 scale-50 transition-all duration-300"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-full bg-primary flex items-center justify-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        stroke-width="2"
+                      >
+                        <path d="M7 7h10v10"></path>
+                        <path d="M7 17 17 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-5 px-1">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-white text-lg font-inter font-semibold">
+                      E-Learning
+                    </h3>
+                    <span class="text-white/30 text-xs font-mono">2026</span>
+                  </div>
+                  <p
+                    class="text-white/40 text-sm mt-1.5 line-clamp-2 font-inter"
+                  >
+                    A next-gen trading platform with real-time data
+                    visualization and AI-powered insights for institutional
+                    investors.
+                  </p>
+                </div>
+              </div></a
+            >
+            <!-- Project 2 -->
+            <a href="project/project2.html"><div
+              class="project-card group relative flex-shrink-0 w-[340px] sm:w-[400px] lg:w-[500px] cursor-pointer transition-all duration-300 hover:-translate-y-1 zoom-in"
+            >
+              <div
+                class="relative overflow-hidden rounded-2xl aspect-video border border-white/5"
+              >
+                <img
+                  src="https://media.base44.com/images/public/69f441e4ae76dea58a9f0690/b2e6e81f7_generated_4bb907fb.png"
+                  class="w-full h-full object-cover group-hover:scale-105 transition"
+                />
+                <div
+                  class="project-overlay absolute inset-0 bg-gradient-to-t from-[#020205]/90 via-primary/10 to-transparent opacity-0 transition-all"
+                ></div>
+                <div
+                  class="project-tech absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 translate-y-2 transition-all"
+                >
+                  <span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 backdrop-blur-sm rounded-full"
+                    >React Native</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >TypeScript</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >GraphQL</span
+                  >
+                </div>
+                <div
+                  class="project-icon absolute top-4 right-4 opacity-0 scale-50 transition-all"
+                >
+                  <div
+                    class="w-10 h-10 rounded-full bg-primary flex items-center justify-center"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                    >
+                      <path d="M7 7h10v10M7 17 17 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-5 px-1">
+                <div class="flex justify-between">
+                  <h3 class="text-white text-lg font-semibold">Share with Learn</h3>
+                  <span class="text-white/30 text-xs">2026</span>
+                </div>
+                <p class="text-white/40 text-sm mt-1.5">
+                  Mobile-first social platform connecting creators with
+                  AI-augmented collaboration tools.
+                </p>
+              </div>
+            </div></a>
+            <!-- Project 3 -->
+            <a href="project/project3.html"><div
+              class="project-card group relative flex-shrink-0 w-[340px] sm:w-[400px] lg:w-[500px] cursor-pointer transition-all hover:-translate-y-1 zoom-in"
+            >
+              <div
+                class="relative overflow-hidden rounded-2xl aspect-video border border-white/5"
+              >
+                <img
+                  src="https://media.base44.com/images/public/69f441e4ae76dea58a9f0690/a4e544e53_generated_60fd2fe3.png"
+                  class="w-full h-full object-cover group-hover:scale-105 transition"
+                />
+                <div
+                  class="project-tech absolute bottom-4 left-4 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition"
+                >
+                  <span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >Python</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >TensorFlow</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >D3.js</span
+                  >
+                </div>
+                <div
+                  class="project-icon absolute top-4 right-4 opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition"
+                >
+                  <div
+                    class="w-10 h-10 rounded-full bg-primary flex items-center justify-center"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                    >
+                      <path d="M7 7h10v10M7 17 17 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-5">
+                <div class="flex justify-between">
+                  <h3 class="text-white text-lg font-semibold">
+                  Smart Notes
+                  </h3>
+                  <span class="text-white/30 text-xs">2026</span>
+                </div>
+                <p class="text-white/40 text-sm mt-1.5">
+                  Deep learning visualization dashboard that maps neural
+                  pathways in real-time 3D space.
+                </p>
+              </div>
+            </div></a>
+            <!-- Project 4 -->
+            <a href="project/project4.html"><div
+              class="project-card group relative flex-shrink-0 w-[340px] sm:w-[400px] lg:w-[500px] cursor-pointer transition-all hover:-translate-y-1 zoom-in"
+            >
+              <div
+                class="relative overflow-hidden rounded-2xl aspect-video border border-white/5"
+              >
+                <img
+                  src="https://media.base44.com/images/public/69f441e4ae76dea58a9f0690/fda0abf1c_generated_1b613f6f.png"
+                  class="w-full h-full object-cover group-hover:scale-105 transition"
+                />
+                <div
+                  class="project-tech absolute bottom-4 left-4 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition"
+                >
+                  <span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >Next.js</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >Stripe</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >Prisma</span
+                  ><span
+                    class="px-3 py-1 text-[10px] font-mono bg-white/10 rounded-full"
+                    >AWS</span
+                  >
+                </div>
+                <div
+                  class="project-icon absolute top-4 right-4 opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition"
+                >
+                  <div
+                    class="w-10 h-10 rounded-full bg-primary flex items-center justify-center"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                    >
+                      <path d="M7 7h10v10M7 17 17 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-5">
+                <div class="flex justify-between">
+                  <h3 class="text-white text-lg font-semibold">
+                    E-commers 
+                  </h3>
+                  <span class="text-white/30 text-xs">2026</span>
+                </div>
+                <p class="text-white/40 text-sm mt-1.5">
+                  A premium e-commerce platform with holographic product
+                  previews and AI-driven personalized shopping.
+                </p>
+              </div>
+            </div></a>
+          </div>
+        </section>
+
+        <!-- ========== ABOUT SECTION (full original) ========== -->
+        <section id="about" class="relative py-24 lg:py-32 bg-[#020205]">
+          <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 fade-up">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="h-[1px] w-12 bg-primary"></div>
+                <span
+                  class="text-primary text-xs font-mono tracking-[0.3em] uppercase"
+                  >Deep Intelligence</span
+                >
+              </div>
+              <h2
+                class="text-3xl lg:text-5xl font-inter font-bold text-white tracking-tight"
+              >
+                About Me
+              </h2>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-16">
+              <div class="fade-left">
+                <p class="text-white/60 text-lg leading-relaxed mb-6">
+                  I'm a creative developer and designer obsessed with building
+                  digital experiences that feel alive. With 5+ years navigating
+                  the intersection of code and design, I create interfaces that
+                  captivate and convert.
+                </p>
+                <p class="text-white/40 text-base leading-relaxed mb-8">
+                  Every pixel, every interaction, every line of code serves a
+                  purpose. I believe the best digital products are those that
+                  feel intuitive, look stunning, and perform flawlessly across
+                  every device and context.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary border border-white/5 rounded-full text-white/50 hover:text-primary hover:border-primary/30 transition-all cursor-default"
+                    >React</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary border border-white/5 rounded-full text-white/50 hover:text-primary transition-all"
+                    >TypeScript</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary border-white/5 rounded-full text-white/50 hover:text-primary"
+                    >Node.js</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary border-white/5 rounded-full text-white/50 hover:text-primary"
+                    >Three.js</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary rounded-full text-white/50 hover:text-primary"
+                    >Python</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary rounded-full text-white/50 hover:text-primary"
+                    >Figma</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary rounded-full text-white/50 hover:text-primary"
+                    >AWS</span
+                  ><span
+                    class="px-4 py-1.5 text-xs font-mono tracking-wider uppercase bg-secondary rounded-full text-white/50 hover:text-primary"
+                    >WebGL</span
+                  >
+                </div>
+              </div>
+              <div class="grid sm:grid-cols-2 gap-4 fade-right">
+                <div
+                  class="group p-6 rounded-2xl bg-secondary/50 border border-white/5 hover:border-primary/20 transition-all"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-primary mb-4 group-hover:scale-110 transition-transform"
+                  >
+                    <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
+                  </svg>
+                  <h3 class="text-white font-inter font-semibold text-sm mb-2">
+                    Development
+                  </h3>
+                  <p class="text-white/40 text-xs leading-relaxed">
+                    Full-stack engineering with modern frameworks and
+                    cloud-native architecture.
+                  </p>
+                </div>
+                <div
+                  class="group p-6 rounded-2xl bg-secondary/50 border border-white/5 hover:border-primary/20 transition-all"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-primary mb-4 group-hover:scale-110 transition-transform"
+                  >
+                    <circle
+                      cx="13.5"
+                      cy="6.5"
+                      r=".5"
+                      fill="currentColor"
+                    ></circle>
+                    <circle
+                      cx="17.5"
+                      cy="10.5"
+                      r=".5"
+                      fill="currentColor"
+                    ></circle>
+                    <path
+                      d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"
+                    />
+                  </svg>
+                  <h3 class="text-white font-inter font-semibold text-sm mb-2">
+                    Design
+                  </h3>
+                  <p class="text-white/40 text-xs leading-relaxed">
+                    UI/UX crafted with precision, blending aesthetics with
+                    seamless functionality.
+                  </p>
+                </div>
+                <div
+                  class="group p-6 rounded-2xl bg-secondary/50 border border-white/5 hover:border-primary/20 transition-all"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-primary mb-4 group-hover:scale-110 transition-transform"
+                  >
+                    <path
+                      d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+                    />
+                  </svg>
+                  <h3 class="text-white font-inter font-semibold text-sm mb-2">
+                    Performance
+                  </h3>
+                  <p class="text-white/40 text-xs leading-relaxed">
+                    Obsessively optimized for speed, accessibility, and user
+                    delight.
+                  </p>
+                </div>
+                <div
+                  class="group p-6 rounded-2xl bg-secondary/50 border border-white/5 hover:border-primary/20 transition-all"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    class="text-primary mb-4 group-hover:scale-110 transition-transform"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path
+                      d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                    ></path>
+                    <path d="M2 12h20"></path>
+                  </svg>
+                  <h3 class="text-white font-inter font-semibold text-sm mb-2">
+                    Innovation
+                  </h3>
+                  <p class="text-white/40 text-xs leading-relaxed">
+                    Pushing boundaries with WebGL, AI integration, and emerging
+                    technologies.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== CONTACT SECTION (fully restored + rainbow button) ========== -->
+        <section
+          id="contact"
+          class="relative py-24 lg:py-32 overflow-hidden bg-[#020205]"
+        >
+          <div
+            class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] pointer-events-none"
+            style="
+              background: radial-gradient(
+                rgba(255, 46, 177, 0.08) 0%,
+                transparent 70%
+              );
+            "
+          ></div>
+          <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 fade-up">
+              <h2
+                class="text-5xl sm:text-6xl lg:text-8xl font-inter font-bold text-white tracking-tighter opacity-10"
+              >
+                INITIATE CONTACT
+              </h2>
+              <div
+                class="flex items-center justify-center gap-3 -mt-6 sm:-mt-8"
+              >
+                <div class="h-[1px] w-12 bg-primary"></div>
+                <span
+                  class="text-primary text-xs font-mono tracking-[0.3em] uppercase"
+                  >The Neural Link</span
+                >
+                <div class="h-[1px] w-12 bg-primary"></div>
+              </div>
+              <p class="text-white/40 text-base mt-6 max-w-lg mx-auto">
+                Have a project in mind? Let's create something extraordinary
+                together.
+              </p>
+            </div>
+            <form
+              id="contactForm"
+              class="max-w-xl mx-auto flex flex-col gap-6 fade-up"
+            >
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    class="block text-[15px] font-mono tracking-[0.3em] uppercase text-white/100 mb-2"
+                    >Name</label
+                  ><input
+                    type="text"
+                    id="contactName"
+                    required
+                    class="w-full bg-transparent border-b border-white/10 focus:border-primary pb-3 text-white text-sm font-inter outline-none transition-colors placeholder:text-white/20"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-[15px] font-mono tracking-[0.3em] uppercase text-white/100 mb-2"
+                    >Email</label
+                  ><input
+                    type="email"
+                    id="contactEmail"
+                    required
+                    class="w-full bg-transparent border-b border-white/10 focus:border-primary pb-3 text-white text-sm font-inter outline-none transition-colors placeholder:text-white/20"
+                    placeholder="your@email.com"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-[15px] font-mono tracking-[0.3em] uppercase text-white/100 mb-2"
+                  >Message</label
+                ><textarea
+                  id="contactMsg"
+                  required
+                  rows="4"
+                  class="w-full bg-transparent border-b border-white/10 focus:border-primary pb-3 text-white text-sm font-inter outline-none transition-colors resize-none placeholder:text-white/20"
+                  placeholder="Tell me about your project..."
+                ></textarea>
+              </div>
+              <button
+                type="submit"
+                class="btn-rainbow self-start px-8 py-3.5 text-white rounded-full text-sm font-medium tracking-wider uppercase flex items-center gap-2 transition-all"
+              >
+                Send Message<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                  ></path>
+                  <path d="m21.854 2.147-10.94 10.939"></path>
+                </svg>
+              </button>
+              <div id="formFeedback" class="text-xs text-primary/70"></div>
+            </form>
+            <div
+              id="otherprofile"
+              class="mt-24 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 fade-up"
+            >
+              <div>
+             <img src="image/internet.png" >
+              <h3 class="text-whicte font-inter font-semibold text-sm mb-5">
+                OTHER PROFILE
+              </h3>
+              <p class="text-white/40 text-xs leading-relaxed">
+                This is My Other Social-Media Profile's. In This Pages are Define My Work  
+              </p>
+            </div>
+            <div
+              class="group p-6 rounded-2xl bg-secondary/50 border border-white/5 hover:border-primary/20 transition-all"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                class="text-primary mb-4 group-hover:scale-110 transition-transform"
+              >              
+              </svg>
+              
+              <div class="flex items-center gap-6">
+                <a
+                  href="https://github.com/nikhil-codesx"
+                  class="text-white/80 text-xs font-mono tracking-wider uppercase hover:text-primary transition-colors flex items-center gap-1"
+                  ><img src="image/github.png" /><br />Github<br />
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M7 7h10v10M7 17 17 7" /></svg></a
+                ><br /><br /><a
+                  href="#"
+                  class="text-white/80 text-xs font-mono tracking-wider uppercase hover:text-primary transition-colors flex items-center gap-1"
+                  ><img src="image/linkedin.png" /><br />LinkedIn
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M7 7h10v10M7 17 17 7" /></svg></a
+                ><br /><br /><a
+                  href="https://www.instagram.com/nikhil_codesx?igsh=MTk4YXZ6YXU4d21wbg=="
+                  class="text-white/80 text-xs font-mono tracking-wider uppercase hover:text-primary transition-colors flex items-center gap-1"
+                  ><img src="image/instagram.png" /><br />Instagram
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M7 7h10v10M7 17 17 7" /></svg></a
+                ><br /><br /><a
+                  href="#"
+                  class="text-white/80 text-xs font-mono tracking-wider uppercase hover:text-primary transition-colors flex items-center gap-1"
+                  ><img src="image/y1.png" /><br />Youtube
+                  <svg
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M7 7h10v10M7 17 17 7" /></svg
+                ></a>
+              </div>
+            </div>
+           </div>    
+          </div>
+        </section>
+      </div>
+    </div>
+ <footer><span class="text-white/80 font-xs text-[15px]"
+              ><b><div><center>© 2026 Nikhil CodesX. All Rights Reserved.</center></b
+              ></span><br><br><br></footer> <br>
+    <script>
+      // Smooth Navigation
+      const sectionsMap = {
+        home: document.getElementById("home"),
+        projects: document.getElementById("projects"),
+        about: document.getElementById("about"),
+        contact: document.getElementById("contact"),
+        otherprofile: document.getElementById("otherprofile"),
+      };
+      document.querySelectorAll("[data-nav]").forEach((btn) =>
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = btn.getAttribute("data-nav");
+          if (target && sectionsMap[target])
+            sectionsMap[target].scrollIntoView({ behavior: "smooth" });
+        }),
+      );
+      document
+        .getElementById("logoHomeBtn")
+        ?.addEventListener("click", () =>
+          sectionsMap["home"].scrollIntoView({ behavior: "smooth" }),
+        );
+      // Mobile menu toggle
+      const mobileBtn = document.getElementById("mobileMenuBtn"),
+        mobileMenu = document.getElementById("mobileMenu");
+      if (mobileBtn)
+        mobileBtn.onclick = () => mobileMenu.classList.toggle("hidden");
+      // Horizontal scroll buttons
+      const scrollCon = document.getElementById("projectsScroll");
+      if (scrollCon) {
+        document
+          .getElementById("scrollLeftBtn")
+          ?.addEventListener("click", () =>
+            scrollCon.scrollBy({ left: -450, behavior: "smooth" }),
+          );
+        document
+          .getElementById("scrollRightBtn")
+          ?.addEventListener("click", () =>
+            scrollCon.scrollBy({ left: 450, behavior: "smooth" }),
+          );
+      }
+      // Contact form feedback
+      const form = document.getElementById("contactForm");
+      if (form)
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const fb = document.getElementById("formFeedback");
+          fb.innerText =
+            "✨ Message sent successfully! I will reach out soon. ✨";
+          fb.style.color = "#ff2eb1";
+          form.reset();
+          setTimeout(() => (fb.innerText = ""), 3500);
+        });
+      // Intersection Observer for ALL scroll animations (fade-up, fade-left, fade-right, zoom-in)
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("show");
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -30px 0px" },
+      );
+      document
+        .querySelectorAll(".fade-up, .fade-left, .fade-right, .zoom-in")
+        .forEach((el) => observer.observe(el));
+      // Stars background generator
+      const starContainer = document.getElementById("starsContainer");
+      if (starContainer) {
+        for (let i = 0; i < 100; i++) {
+          let s = document.createElement("div");
+          s.classList.add("star-particle");
+          s.style.width = Math.random() * 3 + 1 + "px";
+          s.style.height = s.style.width;
+          s.style.left = Math.random() * 100 + "%";
+          s.style.top = Math.random() * 100 + "%";
+          s.style.backgroundColor = Math.random() > 0.7 ? "#ff2eb1" : "#ffffff";
+          s.style.opacity = Math.random() * 0.5 + 0.2;
+          s.style.animationDelay = Math.random() * 5 + "s";
+          starContainer.appendChild(s);
+        }
+      }
+      // trigger visible elements on load
+      window.addEventListener("load", () => {
+        document
+          .querySelectorAll(".fade-up, .fade-left, .fade-right, .zoom-in")
+          .forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 80) el.classList.add("show");
+          });
+      });
+    </script>
+  </body>
+</html>
